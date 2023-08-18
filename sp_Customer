@@ -1,0 +1,53 @@
+
+
+
+USE [promptpan1]
+GO
+/****** Object:  StoredProcedure [dbo].[managecustomer]    Script Date: 8/18/2023 5:36:46 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Dipak Bapodara
+-- Create date: 2023-08-14 12:42 pm
+-- Description:	for Prompt Pan
+-- =============================================
+ALTER PROCEDURE [dbo].[managecustomer]
+	-- Add the parameters for the stored procedure here
+	@CustomerId int,
+	@CustomerName varchar(20),
+	@OPType varchar(6)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	if(@CustomerId=0 and @OPType='insert'or @OPType='INSERT' or @OPType='i' or @OPType='I')
+	BEGIN
+	insert into customer values(@CustomerName,getdate())
+		
+	END
+	else
+	BEGIN
+	if(@OPType='update'AND @OPType='UPDATE'AND @OPType='u'AND @OPType='U')
+	BEGIN
+	update customer set Cumstomer=@CustomerName where Cid=@CustomerId
+	END
+	else
+	BEGIN
+	if(@OPType='delete'AND @OPType='DELETE'AND @OPType='d'AND @OPType='D')
+	BEGIN
+	delete from customer where Cid=@CustomerId
+	END
+	else
+	BEGIN
+	if(@OPType='select'or @OPType='SELECT'or @OPType='s'or @OPType='S'and @CustomerId=NULL and @CustomerName=null)
+	
+	select * from customer
+	END
+	END
+	END
+END
