@@ -1,0 +1,48 @@
+USE [promptpan1]
+GO
+/****** Object:  StoredProcedure [dbo].[productNamepro]    Script Date: 8/18/2023 5:36:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[productNamepro]
+	-- Add the parameters for the stored procedure here
+	@ProductNameId int=null,
+	@ProductName varchar(20)=null,
+	@ProductID int=null,
+	@ProductRS float=null,
+	@ProductStock int=null,
+	@OPType varchar(6)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	if(@OPType='insert'or @OPType='INSERT'or @OPType='i'or @OPType='I'and @ProductNameId=0)
+	BEGIN
+	insert into ProductName values(@ProductName,@ProductID,@ProductRS,@ProductStock,getdate())
+		
+	END
+	else
+	BEGIN
+	if(@OPType='update'or @OPType='UPDATE'or @OPType='u'or @OPType='U')
+	BEGIN
+	update ProductName set @ProductNameId=@ProductNameId,@ProductID=@ProductID,@ProductRS=@ProductRS,@ProductStock=@ProductStock where @ProductNameId=@ProductNameId
+	END
+	else
+	BEGIN
+	if(@OPType='delete'or @OPType='DELETE'or @OPType='d'or @OPType='D'and @ProductName=NULL)
+	BEGIN
+	delete from ProductName where @ProductNameId=@ProductNameId
+	END
+	else
+	BEGIN
+	if(@OPType='select'or @OPType='SELECT'or @OPType='s'or @OPType='S'and @ProductName=NULL and @ProductName=Null)
+	
+	select * from ProductName
+	END
+	END
+	END
+END
