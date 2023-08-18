@@ -1,0 +1,49 @@
+USE [promptpan1]
+GO
+/****** Object:  StoredProcedure [dbo].[total1]    Script Date: 8/18/2023 5:37:39 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[total1]
+	-- Add the parameters for the stored procedure here
+	@BillId int=null,
+	@CustomerId int=null,
+	@ProductTypeId int=null,
+	@ProductNameId int=null,
+	@Quantity int=null,
+	@OPType varchar(6)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	if(@OPType='insert'or @OPType='INSERT'or @OPType='i'or @OPType='I'and @BillId=0)
+	BEGIN
+	insert into total values(@CustomerId,@ProductTypeId,@ProductNameId,@Quantity,getdate())
+		
+	END
+	else
+	BEGIN
+	if(@OPType='update'or @OPType='UPDATE'or @OPType='u'or @OPType='U')
+	BEGIN
+	update total set @CustomerId=@CustomerId,@ProductTypeId=@ProductTypeId,@ProductNameId=@ProductNameId,@Quantity=@Quantity
+	where @ProductNameId=@ProductNameId
+	END
+	else
+	BEGIN
+	if(@OPType='delete'or @OPType='DELETE'or @OPType='d'or @OPType='D'and @ProductNameId=NULL)
+	BEGIN
+	delete from total where @BillId=@BillId
+	END
+	else
+	BEGIN
+	if(@OPType='select'or @OPType='SELECT'or @OPType='s'or @OPType='S')
+	
+	select * from total
+	END
+	END
+	END
+END
